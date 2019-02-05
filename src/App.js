@@ -8,6 +8,7 @@ class App extends Component {
       balance: null,
       avgTransferAmt: null,
       medianTransferAmt: null,
+      highestAccount: null,
       token: null,
     }
   }
@@ -59,8 +60,24 @@ class App extends Component {
     })
   }
 
+  async getHighestAccount() {
+    const token = document.getElementsByClassName('highestAccountToken')[0].value
+    const time = Date.now()
+
+    const response = await fetch(`/${token}/stats/richest`)
+    const body = await response.json()
+
+    if (response.status !== 200) {
+      throw Error(body.message)
+    }
+
+    this.setState({
+      highestAccount: body,
+    })
+  }
+
   render() {
-    const { balance, avgTransferAmt, medianTransferAmt } = this.state
+    const { balance, avgTransferAmt, medianTransferAmt, highestAccount } = this.state
 
     return (
       <div className="App">
@@ -100,10 +117,10 @@ class App extends Component {
             <h4>Highest Account Value</h4>
             <li>
               <div>
-                <input placeholder="Timestamp" className="highestAccountTimestamp" />
-                <button onClick={this.getAvgTransferAmt.bind(this)}>Submit</button>
+                <input placeholder="Token" className="highestAccountToken tokenInput" />
+                <button onClick={this.getHighestAccount.bind(this)}>Submit</button>
               </div>
-              <label>{medianTransferAmt} </label>
+              <label>{highestAccount} </label>
             </li>
 
             <h4>Most Transfers of a Token</h4>
