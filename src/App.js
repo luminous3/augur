@@ -15,8 +15,6 @@ class App extends Component {
     const token = document.getElementsByClassName('balanceToken')[0].value
     const account = document.getElementsByClassName('balanceAccount')[0].value
 
-    debugger
-
     const response = await fetch(`/${token}/account/${account}/balance`)
     const body = await response.json()
 
