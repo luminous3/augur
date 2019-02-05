@@ -86,7 +86,7 @@ function parseTime(timeString) {
   }
 }
 
-PORT = 8080
+PORT = 5000
 DATA_FILENAME = 'token_transfers.json'
 
 const DATA = loadTransactions(DATA_FILENAME)

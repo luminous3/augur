@@ -52,6 +52,10 @@ input {
   margin: 1rem;
 }
 
+.tokenInput {
+  width: 18rem;
+}
+
 h4 {
   margin-bottom: 0rem;
 }
