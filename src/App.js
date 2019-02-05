@@ -1,28 +1,53 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      balance: null,
+      avgTransferAmt: null,
+    }
+  }
+
+  getAvgTransferAmt = () => {
+    console.log('test')
+  }
+
   render() {
+    const { balance, avgTransferAmt } = this.state
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <h4>Augur Test App</h4>
         </header>
+        <section className="App-body">
+          <ul>
+            <h4>Balance of Token</h4>
+            <li className="querySection">
+              <div>
+                <input placeholder="Token" type="text" name="token" />
+                <input placeholder="Timestamp" type="text" name="timestamp" />
+                <button> Submit </button>
+              </div>
+              <label>{balance} </label>
+            </li>
+
+            <h4>Average Token Transfer Amount</h4>
+            <li>
+              <div>
+                <input placeholder="Token" type="text" name="token" />
+                <button onClick={this.getAvgTransferAmt.bind(this)}>Submit</button>
+              </div>
+              <label>{avgTransferAmt} </label>
+            </li>
+          </ul>
+        </section>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
