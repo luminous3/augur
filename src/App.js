@@ -7,6 +7,7 @@ class App extends Component {
     this.state = {
       balance: null,
       avgTransferAmt: null,
+      medianTransferAmt: null,
       token: null,
     }
   }
@@ -14,8 +15,9 @@ class App extends Component {
   async getBalance() {
     const token = document.getElementsByClassName('balanceToken')[0].value
     const account = document.getElementsByClassName('balanceAccount')[0].value
+    const time = Date.now()
 
-    const response = await fetch(`/${token}/account/${account}/balance`)
+    const response = await fetch(`/${token}/account/${account}/balance?time=${time}`)
     const body = await response.json()
 
     if (response.status !== 200) {
@@ -42,8 +44,23 @@ class App extends Component {
     })
   }
 
+  async getMedianTransferAmt() {
+    const token = document.getElementsByClassName('medianToken')[0].value
+
+    const response = await fetch(`/${token}/stats/median`)
+    const body = await response.json()
+
+    if (response.status !== 200) {
+      throw Error(body.message)
+    }
+
+    this.setState({
+      medianTransferAmt: body,
+    })
+  }
+
   render() {
-    const { balance, avgTransferAmt, token } = this.state
+    const { balance, avgTransferAmt, medianTransferAmt } = this.state
 
     return (
       <div className="App">
@@ -65,9 +82,7 @@ class App extends Component {
             <h4>Average Token Transfer Amount</h4>
             <li>
               <div>
-                <input placeholder="Token" className="avgToken tokenInput">
-                  {token}
-                </input>
+                <input placeholder="Token" className="avgToken tokenInput" />
                 <button onClick={this.getAvgTransferAmt.bind(this)}>Submit</button>
               </div>
               <label>{avgTransferAmt} </label>
@@ -76,32 +91,26 @@ class App extends Component {
             <h4>Median Token Transfer Amount</h4>
             <li>
               <div>
-                <input placeholder="Token" className="tokenInput">
-                  {token}
-                </input>
-                <button onClick={this.getAvgTransferAmt.bind(this)}>Submit</button>
+                <input placeholder="Token" className="medianToken tokenInput" />
+                <button onClick={this.getMedianTransferAmt.bind(this)}>Submit</button>
               </div>
-              <label>{avgTransferAmt} </label>
+              <label>{medianTransferAmt} </label>
             </li>
 
             <h4>Highest Account Value</h4>
             <li>
               <div>
-                <input placeholder="Timestamp" className="highestAccountTimestamp">
-                  {token}
-                </input>
+                <input placeholder="Timestamp" className="highestAccountTimestamp" />
                 <button onClick={this.getAvgTransferAmt.bind(this)}>Submit</button>
               </div>
-              <label>{avgTransferAmt} </label>
+              <label>{medianTransferAmt} </label>
             </li>
 
             <h4>Most Transfers of a Token</h4>
             <li>
               <div>
                 <input placeholder="Token" className="tokenInput" />
-                <input placeholder="Timestamp" type="text" name="timestamp">
-                  {token}
-                </input>
+                <input placeholder="Timestamp" type="text" name="timestamp" />
                 <button onClick={this.getAvgTransferAmt.bind(this)}>Submit</button>
               </div>
               <label>{avgTransferAmt} </label>
